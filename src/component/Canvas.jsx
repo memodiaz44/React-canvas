@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CanvasDraw from 'react-canvas-draw';
+import "../styles/canvas.css"
 
 class Canvas extends Component {
   constructor(props) {
@@ -81,8 +82,9 @@ class Canvas extends Component {
     const { canvasKey } = this.state;
 
     return (
-      <div>
+      <div className='newone'>
         <h1>Canvas Component</h1>
+        
         <button onClick={this.handleCreateNewCanvas}>Create New Canvas</button>
         <button onClick={this.clearCanvas}>Clear Canvas</button>
         <button onClick={this.nextCAnvas}>Change Red/Black</button>
