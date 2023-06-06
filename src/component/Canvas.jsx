@@ -13,57 +13,24 @@ class Canvas extends Component {
   }
 
   handleCreateNewCanvas = () => {
-    const saveData = localStorage.getItem('canvasSaveData');
-    if (saveData) {
-      const parsedData = JSON.parse(saveData);
-      const modifiedLines = parsedData.lines.map(line => {
-        if (line.brushColor === "#444") {
-          return { ...line, brushColor: "grey" };
-        }
-        return line;
-      });
-  
-      const modifiedSaveData = JSON.stringify({ ...parsedData, lines: modifiedLines });
-      console.log(modifiedSaveData);
-      localStorage.setItem("canvasSaveData", modifiedSaveData);
-      this.canvasRef.current.loadSaveData(modifiedSaveData, true);
-    }
+    this.clearCanvas();
+    this.setState({ canvasSaveData: null });
+    localStorage.removeItem('canvasSaveData');
   };
   
   
-  
-  
-  
-  
-  
-  
-  
-
-
-
   saveCanvas = () => {
     if (this.canvasRef.current) {
+      // Clear previously loaded canvas data
+      this.setState({ canvasSaveData: null });
+      localStorage.removeItem('canvasSaveData');
+      
+      // Save the new canvas data
       const saveData = this.canvasRef.current.getSaveData();
-  
-      // Load the previous canvas data from localStorage
-      const previousSaveData = localStorage.getItem('canvasSaveData');
-  
-      if (previousSaveData) {
-        const parsedPreviousData = JSON.parse(previousSaveData);
-  
-        // Remove the modifications made by handleCreateNewCanvas
-        parsedPreviousData.lines[0].brushColor = '#444';
-  
-        // Save the modified previous data to localStorage
-        localStorage.setItem('canvasSaveData', JSON.stringify(parsedPreviousData));
-      }
-  
-      // Save the new canvas data to localStorage
       localStorage.setItem('canvasSaveData', saveData);
       this.setState({ canvasSaveData: saveData });
     }
   };
-  
 
   clearCanvas = () => {
     if (this.canvasRef.current) {
@@ -81,15 +48,21 @@ class Canvas extends Component {
       this.canvasRef.current.update({ brushColor: '#444' });
     } 
   };
-  
   loadCanvas = () => {
-    const saveData = localStorage.getItem('canvasSaveData');
-    if (saveData) {
-      this.setState({ canvasSaveData: saveData }); // Update the canvas data in state
-      this.canvasRef.current.loadSaveData(saveData, true);
+    const { drawingData } = this.props;
+    if (drawingData) {
+      this.canvasRef.current.loadSaveData(drawingData, true);
+      this.setState({ canvasSaveData: null });
+      localStorage.removeItem('canvasSaveData');
     }
   };
 
+  
+  
+  
+  
+  
+  
   
   
 
@@ -151,4 +124,4 @@ class Canvas extends Component {
   }
 }
 
-export default Canvas;
+export default Canvas; 
