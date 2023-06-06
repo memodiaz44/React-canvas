@@ -1,16 +1,14 @@
-import Canvas from "./component/Canvas"
+import React from 'react';
 import './App.css';
-
+import Canvas from './component/Canvas';
+import CanvasProperties from './component/CreateCAnvas';
 
 function App() {
-
-
-
-  const drawingData = localStorage.getItem('canvasSaveData');
   return (
     <div className="App">
       <h1 className="h1">Draw in here</h1>
-      <Canvas drawingData={drawingData}/>
+      <Canvas /> 
+      <CanvasProperties canvas={Canvas }/>
     </div>
   );
 }
