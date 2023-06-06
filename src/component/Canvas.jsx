@@ -8,65 +8,61 @@ class Canvas extends Component {
     this.canvasRef = React.createRef();
     this.state = {
       canvasKey: 0,
-      canvasSaveData: null
+      canvasSaveData: null,
+      canvasOpacity:  0.8
+
     };
   }
 
   handleCreateNewCanvas = () => {
-    this.clearCanvas();
-    this.setState({ canvasSaveData: null });
-    localStorage.removeItem('canvasSaveData');
-  };
+    // Make the drawing content transparent
+    const saveData = localStorage.getItem('canvasSaveData');
+    if (saveData) {
+      const parsedData = JSON.parse(saveData);
+      let brushColor = parsedData.lines[0].brushColor;
+      if (brushColor === "#444") {
+        parsedData.lines[0].brushColor = "grey";
+      }
+      const modifiedSaveData = JSON.stringify(parsedData);
+      console.log(modifiedSaveData)
+      localStorage.setItem("canvasSaveData", modifiedSaveData);
   
-  
-  saveCanvas = () => {
-    if (this.canvasRef.current) {
-      // Clear previously loaded canvas data
-      this.setState({ canvasSaveData: null });
-      localStorage.removeItem('canvasSaveData');
-      
-      // Save the new canvas data
-      const saveData = this.canvasRef.current.getSaveData();
-      localStorage.setItem('canvasSaveData', saveData);
-      this.setState({ canvasSaveData: saveData });
+      this.canvasRef.current.loadSaveData(modifiedSaveData, true);
     }
   };
-
+  saveCanvas = () => {
+    if (this.canvasRef.current) {
+      const saveData = this.canvasRef.current.getSaveData();
+      localStorage.setItem('canvasSaveData', saveData);
+    }
+  };
+  
   clearCanvas = () => {
     if (this.canvasRef.current) {
       this.canvasRef.current.clear();
-      
     }
   };
-  
-  nextCAnvas = () => {
+
+  nextCanvas = () => {
     const { brushColor } = this.canvasRef.current.props;
 
     if (brushColor === '#444') {
       this.canvasRef.current.update({ brushColor: '#ff0000' });
     } else {
       this.canvasRef.current.update({ brushColor: '#444' });
-    } 
+    }
   };
+
   loadCanvas = () => {
     const { drawingData } = this.props;
+
     if (drawingData) {
       this.canvasRef.current.loadSaveData(drawingData, true);
       this.setState({ canvasSaveData: null });
       localStorage.removeItem('canvasSaveData');
+      this.nextCanvas(); // Call nextCanvas to update brush color
     }
   };
-
-  
-  
-  
-  
-  
-  
-  
-  
-
-
 
   exportCanvasDataURL = () => {
     if (this.canvasRef.current) {
@@ -77,9 +73,8 @@ class Canvas extends Component {
 
   clearDrawing = () => {
     if (this.canvasRef.current) {
-        localStorage.removeItem('canvasSaveData');
+      localStorage.removeItem('canvasSaveData');
       this.canvasRef.current.clear();
-      
     }
   };
 
