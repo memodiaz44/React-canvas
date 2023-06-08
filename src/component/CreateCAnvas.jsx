@@ -1,11 +1,14 @@
 import React from 'react';
 
-
-function CanvasProperties({ canvas }) {
+function CanvasProperties({ canvasComponent }) {
   const handleProperties = () => {
-    // Access the properties of the Canvas component
-    console.log(canvas)
-    // You can access and print other properties of the Canvas component as needed
+    if (canvasComponent) {
+      // Access the properties of the Canvas component
+      console.log(canvasComponent);
+      // You can access and print other properties of the Canvas component as needed
+    } else {
+      console.log('Canvas component is not yet assigned.');
+    }
   };
 
   return (

@@ -29,6 +29,28 @@ function Canvas() {
     setIsDrawing(false);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const canvas = canvasRef.current;
+    const drawingData = canvas.toDataURL(); // Convert canvas to data URL
+
+    fetch('/api/save-drawing', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ drawingData }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div>
       <h2>Canvas Component</h2>
@@ -42,6 +64,7 @@ function Canvas() {
         onMouseUp={stopDrawing}
         onMouseOut={stopDrawing}
       />
+      <button onClick={handleSubmit}>Save Drawing</button>
     </div>
   );
 }
