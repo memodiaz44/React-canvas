@@ -56,7 +56,7 @@ function Canvas() {
       <h2>Canvas Component</h2>
       <canvas
         ref={canvasRef}
-        width={400}
+        width={800}   //width={400}
         height={400}
         style={{ backgroundColor: 'lightgray' }}
         onMouseDown={startDrawing}
