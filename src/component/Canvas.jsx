@@ -50,30 +50,63 @@ function Canvas() {
       .catch((error) => {
         console.error(error);
       });
-
   };
+
   const handleIncreaseWidth = () => {
-    setWidth((prevWidth) => prevWidth + 400);
+    const canvas = canvasRef.current;
+    if(canvasRef.current){
+      console.log(canvasRef.current.getContext)
+    }
+    const ctx = canvas.getContext('2d');
+  
+    // Get the current drawing content
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  
+    // Increase the canvas width
+    const newWidth = width + 400;
+    setWidth(newWidth);
+  
+    // Resize the canvas
+    canvas.width = newWidth;
+  
+    // Redraw the content on the resized canvas
+    ctx.putImageData(imageData, 0, 0);
+  };
+  
+
+  const jumpAcross = () => {
+    const canvasContainer = canvasRef.current.parentNode;
+    if (canvasContainer) {
+      canvasContainer.scrollLeft += 400;
+    }
+  };
+
+  const jumpABack = () => {
+    const canvasContainer = canvasRef.current.parentNode;
+    if (canvasContainer) {
+      canvasContainer.scrollLeft -= 400;
+    }
   };
 
   return (
     <div>
       <h2>Canvas Component</h2>
-      <div style={{ width: `${width}px`, overflow: 'auto' }}>
-      <canvas
-        ref={canvasRef}
-        width={width}  //width={400}
-        height={400}
-        style={{ backgroundColor: 'lightgray', width: `${width}px`  }}
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseOut={stopDrawing}
-      />
+      <div style={{ width: `400px`, overflow: 'auto' }}>
+        <canvas
+          ref={canvasRef}
+          width={width}
+          height={400}
+          style={{ backgroundColor: 'lightgray', width: `${width}px` }}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseOut={stopDrawing}
+        />
       </div>
       <button onClick={handleSubmit}>Save Drawing</button>
-      <button onClick={handleIncreaseWidth}>increase </button>
-      
+      <button onClick={handleIncreaseWidth}>Increase</button>
+      <button onClick={jumpAcross}>Forward</button>
+      <button onClick={jumpABack}>Backwards</button>
     </div>
   );
 }
