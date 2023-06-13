@@ -1,4 +1,6 @@
 import React from 'react';
+import '../styles/canvas.css'
+
 
 function CanvasProperties({ canvasComponent }) {
   const handleProperties = () => {

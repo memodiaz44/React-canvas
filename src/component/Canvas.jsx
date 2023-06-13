@@ -1,9 +1,19 @@
 import React, { useState, useRef } from 'react';
+import '../styles/canvas.css'
+
 
 function Canvas() {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [width, setWidth] = useState(400);
+  const [savedImageData, setSavedImageData] = useState(null);
+  const [showSavedImage, setShowSavedImage] = useState(false);
+  const [savedData, setSavedData] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+
+
+  const imageRef = useRef(null);
+
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -30,27 +40,27 @@ function Canvas() {
     setIsDrawing(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const canvas = canvasRef.current;
-    const drawingData = canvas.toDataURL(); // Convert canvas to data URL
-
-    fetch('/api/save-drawing', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ drawingData }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const saveD = (e) => {
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const dataURL = canvas.toDataURL(); // Save canvas as data URL
+      setSavedImageData(dataURL);
+      console.log(setSavedImageData)
+    }
   };
+
+
+  const handleLoadData = () => {
+    if (savedImageData) {
+      console.log(savedImageData)
+      setImageUrl(savedImageData);
+
+    }
+  };
+  
+  
+ 
+  
 
   const handleIncreaseWidth = () => {
     const canvas = canvasRef.current;
@@ -87,11 +97,22 @@ function Canvas() {
       canvasContainer.scrollLeft -= 400;
     }
   };
+  const handleShowSavedImage = () => {
+    setShowSavedImage(true);
+  };
+
+  const clearData = () => {
+    localStorage.removeItem("canvasImageData")
+  }
 
   return (
     <div>
       <h2>Canvas Component</h2>
       <div style={{ width: `400px`, overflow: 'auto' }}>
+
+      {imageUrl ? 
+      <img src={imageUrl} alt="Loaded Image" />
+      :
         <canvas
           ref={canvasRef}
           width={width}
@@ -102,11 +123,11 @@ function Canvas() {
           onMouseUp={stopDrawing}
           onMouseOut={stopDrawing}
         />
+  }
       </div>
-      <button onClick={handleSubmit}>Save Drawing</button>
-      <button onClick={handleIncreaseWidth}>Increase</button>
-      <button onClick={jumpAcross}>Forward</button>
-      <button onClick={jumpABack}>Backwards</button>
+      <button onClick={saveD}>Save Drawing</button>
+      <button onClick={clearData}>Clear</button>
+      <button onClick={handleLoadData}>Show Saved Image</button>
     </div>
   );
 }
