@@ -8,11 +8,12 @@ function Canvas() {
   const [width, setWidth] = useState(400);
   const [savedImageData, setSavedImageData] = useState(null);
   const [showSavedImage, setShowSavedImage] = useState(false);
-  const [savedData, setSavedData] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-
-
   const imageRef = useRef(null);
+
+
+
+  
 
 
   const startDrawing = (e) => {
@@ -56,6 +57,8 @@ function Canvas() {
       setImageUrl(savedImageData);
 
     }
+    const newcanva  = canvasRef.current
+    
   };
   
   
@@ -101,6 +104,19 @@ function Canvas() {
     setShowSavedImage(true);
   };
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    const image = new Image();
+  
+    image.onload = () => {
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      draw(canvas, context);
+    };
+  
+    image.src = imageUrl;
+  }, [imageUrl]);
+
   const clearData = () => {
     localStorage.removeItem("canvasImageData")
   }
@@ -108,28 +124,31 @@ function Canvas() {
   return (
     <div>
       <h2>Canvas Component</h2>
-      <div style={{ width: `400px`, overflow: 'auto' }}>
-
-      {imageUrl ? 
-      <img src={imageUrl} alt="Loaded Image" />
-      :
+      <div style={{ position: 'relative', width: '400px', height: '400px' }}>
         <canvas
           ref={canvasRef}
           width={width}
           height={400}
-          style={{ backgroundColor: 'lightgray', width: `${width}px` }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            backgroundColor: 'lightgray',
+          }}
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
           onMouseOut={stopDrawing}
         />
-  }
+     
       </div>
       <button onClick={saveD}>Save Drawing</button>
       <button onClick={clearData}>Clear</button>
       <button onClick={handleLoadData}>Show Saved Image</button>
     </div>
   );
+  
+
 }
 
 export default Canvas;
