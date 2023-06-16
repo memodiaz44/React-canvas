@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react';
-import '../styles/canvas.css'
-
+import React, { useState, useRef, useEffect } from 'react';
+import '../styles/canvas.css';
 
 function Canvas() {
   const canvasRef = useRef(null);
@@ -9,12 +8,6 @@ function Canvas() {
   const [savedImageData, setSavedImageData] = useState(null);
   const [showSavedImage, setShowSavedImage] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
-  const imageRef = useRef(null);
-
-
-
-  
-
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -41,86 +34,36 @@ function Canvas() {
     setIsDrawing(false);
   };
 
-  const saveD = (e) => {
+  const saveD = () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL(); // Save canvas as data URL
       setSavedImageData(dataURL);
-      console.log(setSavedImageData)
     }
   };
-
 
   const handleLoadData = () => {
     if (savedImageData) {
-      console.log(savedImageData)
       setImageUrl(savedImageData);
-
-    }
-    const newcanva  = canvasRef.current
-    
-  };
-  
-  
- 
-  
-
-  const handleIncreaseWidth = () => {
-    const canvas = canvasRef.current;
-    if(canvasRef.current){
-      console.log(canvasRef.current.getContext)
-    }
-    const ctx = canvas.getContext('2d');
-  
-    // Get the current drawing content
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  
-    // Increase the canvas width
-    const newWidth = width + 400;
-    setWidth(newWidth);
-  
-    // Resize the canvas
-    canvas.width = newWidth;
-  
-    // Redraw the content on the resized canvas
-    ctx.putImageData(imageData, 0, 0);
-  };
-  
-
-  const jumpAcross = () => {
-    const canvasContainer = canvasRef.current.parentNode;
-    if (canvasContainer) {
-      canvasContainer.scrollLeft += 400;
+      setIsDrawing(false); // Reset the drawing state
     }
   };
 
-  const jumpABack = () => {
-    const canvasContainer = canvasRef.current.parentNode;
-    if (canvasContainer) {
-      canvasContainer.scrollLeft -= 400;
-    }
-  };
-  const handleShowSavedImage = () => {
-    setShowSavedImage(true);
+  const clearData = () => {
+    localStorage.removeItem('canvasImageData');
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
-    const image = new Image();
+    const background = new Image();
   
-    image.onload = () => {
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      draw(canvas, context);
+    background.onload = () => {
+      context.drawImage(background, 0, 0, canvas.width, canvas.height);
     };
   
-    image.src = imageUrl;
-  }, [imageUrl]);
-
-  const clearData = () => {
-    localStorage.removeItem("canvasImageData")
-  }
-
+    background.src = "http://www.samskirrow.com/background.png";
+  }, []);
   return (
     <div>
       <h2>Canvas Component</h2>
@@ -139,16 +82,15 @@ function Canvas() {
           onMouseMove={draw}
           onMouseUp={stopDrawing}
           onMouseOut={stopDrawing}
+          
         />
-     
+      
       </div>
       <button onClick={saveD}>Save Drawing</button>
       <button onClick={clearData}>Clear</button>
       <button onClick={handleLoadData}>Show Saved Image</button>
     </div>
   );
-  
-
 }
 
 export default Canvas;
