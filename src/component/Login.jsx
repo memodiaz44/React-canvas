@@ -1,11 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import '../styles/login.css';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../habdler/userContext';
 
-function Login({ setToken }) {
+function Login() {
   const history = useHistory();
+  const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
+
 
   const handleSubmit = useCallback(
     (e) => {
@@ -30,10 +34,12 @@ function Login({ setToken }) {
             // Display user not found error message
             alert('User not found. Please check your email or sign up.');
           } else if (!data.hasAccount) {
-            history.push('/signup');
+             history.push('/signup');
           } else {
-            setToken(data.token);
+            setUser(data.user); // Update the user state
+
             history.push('/canvas');
+     
           
             alert(`Hi ${data.name}, Welcome back!`);
           
