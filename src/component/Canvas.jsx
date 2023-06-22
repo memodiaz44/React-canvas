@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useContext  } from 'react';
 import '../styles/canvas.css';
+import { UserContext } from '../habdler/userContext';
 
 function Canvas() {
   const canvasRef = useRef(null);
@@ -9,6 +10,7 @@ function Canvas() {
   const [imageUrl, setImageUrl] = useState('');
   const [store, setStore] = useState([])
   const [index,  setIndex] = useState(0)
+  const { user ,setUser } = useContext(UserContext);
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -39,9 +41,12 @@ function Canvas() {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL(); // Save canvas as data URL
+      if(user){
+        user.addImage(dataURL);
+        user.save()
+      }
       setSavedImageData(dataURL);
       setStore(prevStore => [...prevStore, dataURL])
-
     }
   };
 
@@ -84,7 +89,7 @@ function Canvas() {
   
   return (
     <div>
-      <h2>Canvas Component</h2>
+      {user ?  <h2> Draw {user.name}</h2> : <h2> Draw bb</h2>}
       <div style={{ position: 'relative', width: '400px', height: '400px' }}>
         <canvas
           ref={canvasRef}

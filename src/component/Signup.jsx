@@ -28,7 +28,7 @@ const Signup = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-          history.push('/log');
+          history.push('/login');
             console.log(data)
         })
         .catch((error) => {
@@ -45,6 +45,7 @@ const Signup = () => {
     return(
         <div className='signup-container'>
       <form onSubmit={handleSubmit}>
+        <h1>Sign up!</h1>
         <div className='form-field'>
           <label>Username</label>
           <input type='text' name='username' required value={userName} onChange={(e) => setUserName(e.target.value)} />

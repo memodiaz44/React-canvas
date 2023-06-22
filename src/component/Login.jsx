@@ -36,7 +36,8 @@ function Login() {
           } else if (!data.hasAccount) {
              history.push('/signup');
           } else {
-            setUser(data.user); // Update the user state
+            setUser(data); // Update the user state
+            console.log(data)
 
             history.push('/canvas');
      
@@ -52,13 +53,14 @@ function Login() {
       setEmail('');
       setPassword('');
     },
-    [email, password, history, setToken]
+    [email, password, history, setUser]
   );
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="email">
+          <h1>Welcome back!</h1>
           <label>Email</label>
           <input
             type="text"
@@ -77,7 +79,7 @@ function Login() {
           />
         </div>
         <div className="submit">
-          <input type="submit" value="Submit" />
+          <input className='button' type="submit" value="Submit" />
         </div>
         <span>Don't have an account yet? <a href="/signup">Sign up</a></span>
       </form>

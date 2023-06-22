@@ -1,0 +1,31 @@
+.headers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 1px;
+    width: 50%;
+}
+
+h2{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+h3{
+    display: inline;
+    margin: 0;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+footer{
+    background-color: cadetblue;
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    
+}
