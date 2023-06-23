@@ -41,9 +41,23 @@ function Canvas() {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL(); // Save canvas as data URL
-      if(user){
-        user.addImage(dataURL);
-        user.save()
+      if (user) {
+        const userId = user.userId; // Assuming the user object has a unique identifier like 'userId'
+ 
+        fetch(`http://localhost:5000/api/users/${userId}/images`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId, imageURL: dataURL }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.message);
+          })
+          .catch((error) => {
+            console.log('Error saving image:', error);
+          });
       }
       setSavedImageData(dataURL);
       setStore(prevStore => [...prevStore, dataURL])
@@ -116,7 +130,7 @@ function Canvas() {
         position: 'absolute',
         top: 0,
         left: 0,
-        opacity: retrieveData ? 0.1 :  handleLoadData ? 0.5 : 1,
+        opacity: handleLoadData && !retrieveData ? 0.1 : 1,
       }}
       draggable="false" 
       onMouseDown={startDrawing}
