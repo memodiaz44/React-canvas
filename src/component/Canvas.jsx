@@ -11,6 +11,10 @@ function Canvas() {
   const [store, setStore] = useState([])
   const [index,  setIndex] = useState(0)
   const { user ,setUser } = useContext(UserContext);
+  const [isRetrieveData, setIsRetrieveData] = useState(false);
+
+
+  
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -38,6 +42,7 @@ function Canvas() {
   };
 
   const saveD = () => {
+    
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL(); // Save canvas as data URL
@@ -61,14 +66,7 @@ function Canvas() {
       }
       setSavedImageData(dataURL);
       setStore(prevStore => [...prevStore, dataURL])
-    }
-  };
-
-  const handleLoadData = () => {
-    if (savedImageData) {
-      setImageUrl(savedImageData);
-      console.log(savedImageData)
-      setIsDrawing(false); // Reset the drawing state
+      console.log(dataURL)
     }
   };
 
@@ -78,9 +76,25 @@ function Canvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  const handleLoadData = () => {
+    if (savedImageData) {
+      setImageUrl(savedImageData);
+      console.log(savedImageData)
+      setIsRetrieveData(true);
+      setIsDrawing(false); // Reset the drawing state
+     
+    }
+  };
+
+
+
   const retrieveData = () => {
     let index = 0
     if(store.length > 0){
+      setIsRetrieveData(false);
+
+
+
       const interval = setInterval(() => { 
         console.log(imageUrl.opacity)
         setImageUrl(store[index])
@@ -95,9 +109,18 @@ function Canvas() {
       return () => {
         clearInterval(interval)
       }
-     
     }
   }
+
+  const multiFunc = async () => {
+    saveD();
+    clearData(); 
+    handleLoadData()
+  };
+
+
+
+
 
 
   
@@ -123,21 +146,22 @@ function Canvas() {
           
         />
           {imageUrl && (
-    <img
-      src={imageUrl}
-      alt='baby'
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        opacity: handleLoadData && !retrieveData ? 0.1 : 1,
-      }}
-      draggable="false" 
-      onMouseDown={startDrawing}
-      onMouseMove={draw}
-      onMouseUp={stopDrawing}
-      onMouseOut={stopDrawing}
-    />
+<img
+  src={imageUrl}
+  alt='baby'
+  style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: isRetrieveData ? 0.1 : 1,
+  }}
+  draggable="false" 
+  onMouseDown={startDrawing}
+  onMouseMove={draw}
+  onMouseUp={stopDrawing}
+  onMouseOut={stopDrawing}
+/>
+
   )}
       
       </div>
@@ -145,6 +169,7 @@ function Canvas() {
       <button onClick={retrieveData}>Animate</button>
       <button onClick={clearData}>Clear</button>
       <button onClick={handleLoadData}>Show Saved Image</button>
+      <button onClick={multiFunc}>next</button>
     </div>
   );
 }

@@ -32,7 +32,18 @@ const Home = () => {
     const { user } = useContext(UserContext);
 
     return(
-        <h1>yeah </h1>
+        <div className="view">
+        {user ? (
+          <>
+            <h1>Hi {user.name}</h1>
+            {user.images > 0 ? <h2>Access images</h2> : <h2>No images saved yet</h2>}
+          </>
+        ) : (
+          <h1>
+            <a href="/login">Need to log in first</a>
+          </h1>
+        )}
+      </div>
     )
 
  }
