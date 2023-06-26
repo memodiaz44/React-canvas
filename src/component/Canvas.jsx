@@ -41,39 +41,44 @@ function Canvas() {
     setIsDrawing(false);
   };
 
-  const saveD = () => {
-    
+  const saveD = async () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
-      const dataURL = canvas.toDataURL(); // Save canvas as data URL
+      const dataURL = canvas.toDataURL();
+  
       if (user) {
-        const userId = user.userId; // Assuming the user object has a unique identifier like 'userId'
- 
-        fetch(`http://localhost:5000/api/users/${userId}/images`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userId, imageURL: dataURL }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.message);
-          })
-          .catch((error) => {
-            console.log('Error saving image:', error);
+        const userId = user.userId;
+  
+        try {
+          const response = await fetch(`http://localhost:5000/api/users/${userId}/images`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, imageURL: dataURL }),
           });
+  
+          const data = await response.json();
+          console.log(data.message);
+        } catch (error) {
+          console.log('Error saving image:', error);
+        }
       }
+  
       setSavedImageData(dataURL);
-      setStore(prevStore => [...prevStore, dataURL])
-      console.log(dataURL)
+      setStore(prevStore => [...prevStore, dataURL]);
+      console.log(dataURL);
+      console.log('data saved');
     }
   };
+  
 
   const clearData = () => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
+    console.log('data cleared ')
+    return true 
   };
 
   const handleLoadData = () => {
@@ -82,6 +87,7 @@ function Canvas() {
       console.log(savedImageData)
       setIsRetrieveData(true);
       setIsDrawing(false); // Reset the drawing state
+      console.log('data loaded ')
      
     }
   };
@@ -113,10 +119,13 @@ function Canvas() {
   }
 
   const multiFunc = async () => {
-    saveD();
-    clearData(); 
-    handleLoadData()
+    await saveD(); // Wait for saveD to complete
+    await clearData(); // Wait for clearData to complete
+    await handleLoadData(); // Wait for handleLoadData to complete
+
   };
+  
+  
 
 
 
