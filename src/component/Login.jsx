@@ -80,8 +80,8 @@ function Login() {
         </div>
         <div className="submit">
           <input className='button' type="submit" value="Submit" />
-        </div>
-        <span>Don't have an account yet? <a href="/signup">Sign up</a></span>
+        </div><a href="/signup">Sign up</a>
+        <span>Don't have an account yet? </span>
       </form>
     </div>
   );

@@ -60,7 +60,6 @@ function App() {
       <div className="App">
         {/* <h1 className="h1">Welcome artist</h1> */}
         <Switch>
-          <Route path="/landing" component={Landing} />
           <Route path="/home" component={Home}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path='/login' component={Login}/>
@@ -78,9 +77,7 @@ function Navigation(){
   return(
     <div className='content'>
     <nav>
-      <li>
-        <Link to="/landing">Landing</Link>
-      </li>
+     
       <li>
         <Link to="/home">Home</Link>
       </li>

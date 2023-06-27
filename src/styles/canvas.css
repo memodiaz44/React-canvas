@@ -11,3 +11,8 @@ button{
     color: rgb(68, 119, 119);
 }
 
+.container {
+    display: flex;
+
+}
+

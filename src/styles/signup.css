@@ -28,4 +28,13 @@
     box-shadow: 1px 3px #888888;
     background-color: rgb(124, 124, 237);
     color: white;
+    margin: 10px;
   }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    padding: 60px;
+  }
+  

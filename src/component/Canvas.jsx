@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext  } from 'react';
+import React, { useState, useEffect, useRef, useContext  } from 'react';
 import '../styles/canvas.css';
 import { UserContext } from '../habdler/userContext';
 
@@ -14,7 +14,11 @@ function Canvas() {
   const [isRetrieveData, setIsRetrieveData] = useState(false);
 
 
-  
+  useEffect(() => {
+    if (savedImageData) {
+      handleLoadData();
+    }
+  }, [savedImageData]);
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -46,25 +50,6 @@ function Canvas() {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL();
   
-      if (user) {
-        const userId = user.userId;
-  
-        try {
-          const response = await fetch(`http://localhost:5000/api/users/${userId}/images`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId, imageURL: dataURL }),
-          });
-  
-          const data = await response.json();
-          console.log(data.message);
-        } catch (error) {
-          console.log('Error saving image:', error);
-        }
-      }
-  
       setSavedImageData(dataURL);
       setStore(prevStore => [...prevStore, dataURL]);
       console.log(dataURL);
@@ -93,6 +78,16 @@ function Canvas() {
   };
 
 
+  
+  const changeColor = () => {
+
+  }
+  const erase = () => {
+
+
+  }
+
+
 
   const retrieveData = () => {
     let index = 0
@@ -115,27 +110,22 @@ function Canvas() {
       return () => {
         clearInterval(interval)
       }
+    } else if (store.length == 0){
+      alert('no content saved to animate')
     }
   }
 
   const multiFunc = async () => {
     await saveD(); // Wait for saveD to complete
     await clearData(); // Wait for clearData to complete
-    await handleLoadData(); // Wait for handleLoadData to complete
-
+    // handleLoadData will be triggered by the useEffect
   };
   
-  
-
-
-
-
-
-
-  
   return (
-    <div>
-      {user ?  <h2> Draw {user.name}</h2> : <h2> Draw bb</h2>}
+    <>
+    {user ?  <h2> Draw {user.name}</h2> : <h2> Draw bb</h2>}
+    <div className='container'>
+   
       <div style={{ position: 'relative', width: '400px', height: '400px' }}>
         <canvas
           ref={canvasRef}
@@ -147,6 +137,7 @@ function Canvas() {
             top: 0,
             left: 0,
             backgroundColor: 'lightgray',
+            border: '2px solid ',
           }}
           onMouseDown={startDrawing}
           onMouseMove={draw}
@@ -162,7 +153,7 @@ function Canvas() {
     position: 'absolute',
     top: 0,
     left: 0,
-    opacity: isRetrieveData ? 0.1 : 1,
+    opacity: isRetrieveData ? 0.2 : 1,
   }}
   draggable="false" 
   onMouseDown={startDrawing}
@@ -174,12 +165,15 @@ function Canvas() {
   )}
       
       </div>
+      <div className='buttons'>
       <button onClick={saveD}>Save Drawing</button>
       <button onClick={retrieveData}>Animate</button>
       <button onClick={clearData}>Clear</button>
       <button onClick={handleLoadData}>Show Saved Image</button>
-      <button onClick={multiFunc}>next</button>
+      <button onClick={multiFunc}>next page</button>
+      </div>
     </div>
+    </>
   );
 }
 
