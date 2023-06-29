@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext  } from 'react';
+/* eslint-disable */ 
 import '../styles/canvas.css';
 import { UserContext } from '../habdler/userContext';
 
