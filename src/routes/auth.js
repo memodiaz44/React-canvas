@@ -9,7 +9,6 @@ import Video from "../images/video.mp4"
 
 
 const Home = () => {
-
     return (
         <>
 
