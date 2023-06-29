@@ -61,7 +61,7 @@ function App() {
       <div className="App">
         {/* <h1 className="h1">Welcome artist</h1> */}
         <Switch>
-          <Route path="/" component={Home}/>
+          <Route path="/home" component={Home}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path='/login' component={Login}/>
           <Route path='/canvas' component={Canvas}/>
@@ -80,7 +80,7 @@ function Navigation(){
     <nav>
      
       <li>
-        <Link to="/" >Home</Link>
+        <Link to="/home">Home</Link>
       </li>
       <li>
         <Link to="/dashboard">Dashboard</Link>
