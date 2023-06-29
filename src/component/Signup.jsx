@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import '../styles/signup.css'
 import { useHistory } from 'react-router-dom';
 
-
+/* eslint-disable */ 
 const Signup = () => {
   const history = useHistory();
 
@@ -19,7 +19,7 @@ const Signup = () => {
             password: password
         }
 
-        fetch("http://localhost:5000/api/register", {
+        fetch("http://3.19.219.106:5001/api/register", {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'

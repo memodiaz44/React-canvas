@@ -48,3 +48,15 @@
     width: 200px;
   }
   
+
+  @media screen and (max-width: 600px) {
+    .form-container{
+      width: 300px;
+
+      margin: 20px;
+      margin-top: 200px;
+      margin-left: 150px;
+    }
+
+
+  }

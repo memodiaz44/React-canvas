@@ -16,3 +16,17 @@ button{
 
 }
 
+@media screen and (max-width: 600px) {
+    .container {
+      align-items: center;
+      display: block;
+      margin-left: 140px;
+    }
+
+    h2{
+        margin-left: 140px;
+    }
+  }
+
+
+

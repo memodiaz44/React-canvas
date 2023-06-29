@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;  
+  height: 100%;  
   color: aliceblue;
 }
 
@@ -72,6 +72,20 @@ button:hover {
 }
 
 .content{
-  background-color: #0c3e72;
-  height: 40px;
+  background-color: #053262;
+  height: 4%;
+  padding-right: 20px;
+  padding-left: 20px;
+  width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .App {
+    font-size: 14px;
+  }
+  .content{
+    width: 100%;
+    padding-left: 120px;
+   
+  }
 }

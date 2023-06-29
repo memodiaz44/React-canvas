@@ -38,3 +38,14 @@
     padding: 60px;
   }
   
+
+  @media screen and (max-width: 600px) {
+    .signup-container{
+      width: 300px;
+
+      margin: 20px;
+      margin-top: 200px;
+      margin-left: 150px;
+    }
+
+  }

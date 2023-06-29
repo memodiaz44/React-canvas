@@ -1,4 +1,5 @@
 // App.jsx
+/* eslint-disable */ 
 import React, {  useContext } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, useHistory,  } from 'react-router-dom';

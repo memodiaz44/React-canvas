@@ -6,12 +6,16 @@ function Canvas() {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [width, setWidth] = useState(400);
-  const [savedImageData, setSavedImageData] = useState(null);
+  const [savedImageData, setSavedImageData] = useState('');
+
   const [imageUrl, setImageUrl] = useState('');
   const [store, setStore] = useState([])
   const [index,  setIndex] = useState(0)
   const { user ,setUser } = useContext(UserContext);
   const [isRetrieveData, setIsRetrieveData] = useState(false);
+  const [isErasing, setIsErasing] = useState(false);
+  const [imageName, setImageName] = useState('');
+
 
 
   useEffect(() => {
@@ -37,6 +41,14 @@ function Canvas() {
     const ctx = canvas.getContext('2d');
     const { offsetX, offsetY } = e.nativeEvent;
 
+    if (isErasing) {
+      ctx.strokeStyle = 'lightgray'; // Set erase color
+      ctx.globalCompositeOperation = 'destination-out'; // Set erase mode
+    } else {
+      ctx.strokeStyle = 'black'; // Set draw color
+      ctx.globalCompositeOperation = 'source-over'; // Set draw mode
+    }
+
     ctx.lineTo(offsetX, offsetY);
     ctx.stroke();
   };
@@ -49,6 +61,7 @@ function Canvas() {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const dataURL = canvas.toDataURL();
+
   
       setSavedImageData(dataURL);
       setStore(prevStore => [...prevStore, dataURL]);
@@ -66,6 +79,49 @@ function Canvas() {
     return true 
   };
 
+
+
+  const saveData = async () => {
+    const userId = user.userID;
+  
+    if (savedImageData === null || imageName === '') {
+      alert('No image saved');
+      return;
+    }
+  
+    if (!imageName) {
+      alert('Please enter the name of the image');
+      return;
+    }
+  
+    const jsonData = {
+      name: imageName,
+      imageURL: savedImageData // Update to use 'imageURL' instead of 'imageURLs'
+    };
+  
+    try {
+      const response = await fetch(`http://3.19.219.106:5001/api/users/${userId}/images`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData)
+      });
+  
+      if (response.ok) {
+        const updatedUser = await response.json();
+        console.log(updatedUser); // Do something with the updated user object
+      } else {
+        throw new Error('Error adding image to user');
+      }
+    } catch (error) {
+      console.error('Error adding image to user:', error);
+    }
+  };
+  
+
+  
+
   const handleLoadData = () => {
     if (savedImageData) {
       setImageUrl(savedImageData);
@@ -79,13 +135,10 @@ function Canvas() {
 
 
   
-  const changeColor = () => {
 
-  }
   const erase = () => {
-
-
-  }
+    setIsErasing(!isErasing); // Toggle the erasing mode
+  };
 
 
 
@@ -110,7 +163,7 @@ function Canvas() {
       return () => {
         clearInterval(interval)
       }
-    } else if (store.length == 0){
+    } else if (store.length === 0){
       alert('no content saved to animate')
     }
   }
@@ -123,7 +176,7 @@ function Canvas() {
   
   return (
     <>
-    {user ?  <h2> Draw {user.name}</h2> : <h2> Draw bb</h2>}
+    {user ?  <h2> Draw {user.name}</h2> : <h2> Drawing TIme </h2>}
     <div className='container'>
    
       <div style={{ position: 'relative', width: '400px', height: '400px' }}>
@@ -166,7 +219,20 @@ function Canvas() {
       
       </div>
       <div className='buttons'>
-      <button onClick={saveD}>Save Drawing</button>
+        {user ? 
+        <button onClick={() => {
+        const imageName = prompt('Enter the name of the image');
+         if (imageName) {
+        setImageName(imageName);
+         saveData(setImageName);
+  }
+}}>Save Drawing</button>
+        :
+      <button onClick={saveD}>Save Drawing</button>}
+      <button onClick={erase}>
+  {isErasing ? 'Draw' : 'Erase'}
+</button>
+
       <button onClick={retrieveData}>Animate</button>
       <button onClick={clearData}>Clear</button>
       <button onClick={handleLoadData}>Show Saved Image</button>
