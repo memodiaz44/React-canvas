@@ -58,14 +58,7 @@ a:hover{
   color: rgb(221, 167, 102);
 }
 
-button {
-  background-color: #538ecd;
-  color: #eadfdf;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
+
 
 button:hover {
   background-color: #cad6e3;

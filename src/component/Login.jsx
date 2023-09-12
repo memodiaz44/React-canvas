@@ -57,14 +57,16 @@ function Login() {
   );
 
   return (
-    <div className="form-container">
+    <div className="bg-slate-800 m-20 p-20 rounded-2xl border-slate-100		border-2">
       <form onSubmit={handleSubmit}>
         <div className="email">
           <h1>Welcome back!</h1>
           <label>Email</label>
           <input
+            className='appearance-none bg-slate-100	 border-none w-full text-teal-900				 mr-3 py-1 px-2 leading-tight focus:outline-none'
             type="text"
             name="email"
+            placeholder='email'
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -74,12 +76,14 @@ function Login() {
           <input
             type="password"
             name="password"
+            className='appearance-none bg-slate-100	 border-none w-full text-teal-900		 mr-3 py-1 px-2 leading-tight focus:outline-none'
+            placeholder='password'
             required
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="submit">
-          <input className='button' type="submit" value="Submit" />
+          <input className='bg-slate-500	hover:bg-slate-600	w-20' type="submit" value="Submit" />
         </div><a href="/signup">Sign up</a>
         <span style={{
           paddingBottom: "20px"

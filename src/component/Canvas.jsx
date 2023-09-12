@@ -177,17 +177,20 @@ function Canvas() {
   
   return (
     <>
-    {user ?  <h2> Draw {user.name}</h2> : <h2> Drawing TIme </h2>}
-    <div className='container'>
+    {user ?  <h2> Draw {user.name}</h2> : <h2 className='m-2'> Drawing TIme </h2>}
+    <div className='justify-content content-center mb-20	'>
    
-      <div style={{ position: 'relative', width: '400px', height: '400px' }}>
+      <div  
+      className=''
+      style={{ position: '', width: '', height: '' }}>
         <canvas
+        className=' w-full h-auto 	'
           ref={canvasRef}
-          width={width}
-          height={400}
+          width=''
+          height=''
           style={{
            
-            position: 'absolute',
+            position: '',
             top: 0,
             left: 0,
             backgroundColor: 'lightgray',
@@ -219,25 +222,25 @@ function Canvas() {
   )}
       
       </div>
-      <div className='buttons'>
+      <div className='flex h-20 '>
         {user ? 
         <button onClick={() => {
         const imageName = prompt('Enter the name of the image');
          if (imageName) {
         setImageName(imageName);
-         saveData(setImageName);
+         saveData();
   }
 }}>Save Drawing</button>
         :
-      <button onClick={saveD}>Save Drawing</button>}
-      <button onClick={erase}>
+      <button className='bg-slate-800	w-20'  onClick={saveD}>Save Drawing</button>}
+      <button className='bg-slate-800	w-20'  onClick={erase}>
   {isErasing ? 'Draw' : 'Erase'}
 </button>
 
-      <button onClick={retrieveData}>Animate</button>
-      <button onClick={clearData}>Clear</button>
-      <button onClick={handleLoadData}>Show Saved Image</button>
-      <button onClick={multiFunc}>next page</button>
+      <button className='bg-slate-800	 w-20' onClick={retrieveData}>Animate</button>
+      <button className='bg-slate-800 w-20	'  onClick={clearData}>Clear</button>
+      <button className='bg-slate-800	  w-20'  onClick={handleLoadData}> Saved Image</button>
+      <button  className='bg-slate-800 w-20	' onClick={multiFunc}>next page</button>
       </div>
     </div>
     </>

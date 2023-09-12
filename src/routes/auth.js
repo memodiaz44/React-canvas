@@ -50,7 +50,6 @@ const Home = () => {
       <a className="anchor" style={{
         paddingBottom: '10px' 
       }} href="/canvas"> try now </a> 
-      <footer><h3>Fullstack web application that allows you to create animatins  </h3></footer>
       </>
     );
   };
@@ -86,7 +85,7 @@ const Home = () => {
     };
 
     return (
-      <div className="view">
+      <div className="view m-20">
         {user ? (
           <>
             <h1>Hi {user.name}</h1>
@@ -113,21 +112,18 @@ const Home = () => {
           </>
         ) : (
           <h1>
-            <div style={{ width: '100%', height: 0, paddingBottom: '56%', position: 'relative' }}>
+            <div style={{ width: '', height: 0, paddingBottom: '56%', position: 'relative' }}>
               <iframe
                 src="https://giphy.com/embed/mvyvXwL26FfAtRCLPk"
-                width="100%"
-                height="100%"
-                style={{ position: 'absolute' }}
+                className='w-full h-200'
                 frameBorder="0"
-                className="giphy-embed"
                 allowFullScreen
               ></iframe>
             </div>
             <p>
               <a href="https://giphy.com/gifs/snl-saturday-night-live-season-47-mvyvXwL26FfAtRCLPk"></a>
             </p>
-            <a href="/login">Need to log in first</a>
+            <a className="mt-20" href="/login">Need to log in first</a>
           </h1>
         )}
       </div>

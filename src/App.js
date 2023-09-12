@@ -1,6 +1,6 @@
 // App.jsx
 /* eslint-disable */ 
-import React, {  useContext } from 'react';
+import React, {  useContext, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, useHistory,  } from 'react-router-dom';
 import Canvas from './component/Canvas';
@@ -9,7 +9,7 @@ import Login from './component/Login';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { Landing, Home, Dashboard } from "./routes/auth"
 import { UserProvider, UserContext } from './habdler/userContext';
-
+import Footer from './component/Footer.jsx'
 // function useToken() { 
 // const getToken = () => {
 //   const tokenString = sessionStorage.getItem('token');
@@ -41,9 +41,9 @@ const login = () =>{
     <div>
 
   {user ? ( 
-    <button onClick={logout}>logout</button>
+    <button className='bg-slate-800 w-20' onClick={logout}>logout</button>
 
-  ) : ( <button onClick={login}>login</button> )}
+  ) : ( <button className='bg-slate-800 w-20' onClick={login}>login</button> )}
   </div> 
   )
 }
@@ -70,14 +70,17 @@ function App() {
         
       </div>
       </UserProvider>
+      <Footer/>
     </Router>
   );
 }
 
 function Navigation(){
+const [isopen, setIsOpen] = useState(false)
+
   return(
-    <div className='content'>
-    <nav>
+    <div className='w-full 		'>
+    <nav className='bg-slate-600  	'>
      
       <li>
         <Link to="/home">Home</Link>
