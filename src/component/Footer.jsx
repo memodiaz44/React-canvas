@@ -3,12 +3,12 @@ import logo from '../images/logo.png'
 const Footer = () => {
 return(
 
-<footer className="bg-white dark:bg-gray-900 mt-auto">
+<footer className="bg-white dark:bg-gray-900 ">
     <div className="mx-auto w-full max-w-screen-xl">
-      <div className="ml-20 grid grid-cols-2 gap-8 px-8 py-6 lg:py-8 md:grid-cols-4">
+      <div className="ml-20 grid grid-cols-2 gap-8 px-8 py-6 lg:py-1 md:grid-cols-4">
       <div>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                <li className="mb-4">
+                <li className="m-4">
                     <img className='w-20' src={logo} alt="logo" />
                 </li>
             </ul>
