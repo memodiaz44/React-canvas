@@ -3,7 +3,7 @@ import logo from '../images/logo.png'
 const Footer = () => {
 return(
 
-<footer className="bg-white dark:bg-gray-900 ">
+<footer className="bg-white dark:bg-gray-900 mt-auto">
     <div className="mx-auto w-full max-w-screen-xl">
       <div className="ml-20 grid grid-cols-2 gap-8 px-8 py-6 lg:py-8 md:grid-cols-4">
       <div>
@@ -22,13 +22,13 @@ return(
             </ul>
         </div>
         <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">FullStack app</h2>
             <ul className="text-gray-500 dark:text-gray-400 font-medium">
             
              
               
                 <li className="mb-4">
-                    <a href="#" className="hover:underline">Contact Us</a>
+                    <a href="/about" className="hover:underline">About</a>
                 </li>
             </ul>
         </div>

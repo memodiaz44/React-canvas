@@ -9,7 +9,8 @@ import Login from './component/Login';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { Landing, Home, Dashboard } from "./routes/auth"
 import { UserProvider, UserContext } from './habdler/userContext';
-import Footer from './component/Footer.jsx'
+import Footer from './component/Footer.jsx';
+import About from './component/About';
 // function useToken() { 
 // const getToken = () => {
 //   const tokenString = sessionStorage.getItem('token');
@@ -55,23 +56,29 @@ function App() {
 
 
   return (
+    <div className="flex flex-col min-h-screen">
+
     <Router>
        <UserProvider>
        <Navigation/>
-      <div className="App">
+      <div className="App flex-grow">
         {/* <h1 className="h1">Welcome artist</h1> */}
         <Switch>
-          <Route path="/" component={Home}/>
+          <Route path="/" exact component={Home}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path='/login' component={Login}/>
           <Route path='/canvas' component={Canvas}/>
           <Route path='/signup' component={Signup}/>
+          <Route path='/about'  component={About}/>
         </Switch>
         
       </div>
       </UserProvider>
+      <div className=''>  
       <Footer/>
+      </div>
     </Router>
+    </div>
   );
 }
 
