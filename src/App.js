@@ -61,7 +61,7 @@ function App() {
       <div className="App">
         {/* <h1 className="h1">Welcome artist</h1> */}
         <Switch>
-          <Route path="/home" component={Home}/>
+          <Route path="/" component={Home}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path='/login' component={Login}/>
           <Route path='/canvas' component={Canvas}/>
@@ -83,7 +83,7 @@ const [isopen, setIsOpen] = useState(false)
     <nav className='bg-slate-600  	'>
      
       <li>
-        <Link to="/home">Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
         <Link to="/dashboard">Dashboard</Link>
